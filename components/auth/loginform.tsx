@@ -18,8 +18,12 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {login} from '@/actions/login'
+import { useSearchParams } from "next/navigation"
 
 const LoginForm = () => {
+  const searchParams=useSearchParams();
+  const urlError=searchParams.get("error")==="oauthAccountNotLinked"?"email already use with anthor provider":""
+
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition()
@@ -38,7 +42,8 @@ const LoginForm = () => {
         if (data) {
           console.log("error info",data)
           setError(data.error)
-          setSuccess(data.success)
+          // TODO:success
+          // setSuccess(data.success)
         }
       })     
      
@@ -85,7 +90,7 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <FormError errormessage={error}/>
+        <FormError errormessage={error || urlError}/>
         <Formsuccess successmessage={success}/>
         <Button type="submit" size="lg" className='w-full'>Login</Button>
       </form>

@@ -7,6 +7,7 @@
  */
 export const publicRoutes = [
     "/",
+    
 ]
 /**
  * this are auth routes that  need authcation
@@ -16,6 +17,7 @@ export const publicRoutes = [
 export const authRoutes = [
     "/auth/login",
     "/auth/register",
+    "/auth/error"
 ]
 export const apiAuthPrefix = "/api/auth";
 
