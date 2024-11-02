@@ -26,6 +26,18 @@ declare module "next-auth/jwt" {
 
  
 export const { auth, handlers, signIn, signOut } = NextAuth({
+    events: {
+        async linkAccount({user}){
+            await prisma.user.update({
+                where:{
+                    id:user.id
+                },
+                data:{
+                    emailVerified:new Date()
+                }
+            })
+        }
+    },
     callbacks: {
         // async signIn({ user }) {
         //     if(!user) return false
