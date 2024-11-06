@@ -41,9 +41,9 @@ const LoginForm = () => {
         login(values).then((data)=>{
         if (data) {
           console.log("error info",data)
-          setError(data.error)
+          setError(data?.error)
           // TODO:success
-          // setSuccess(data.success)
+          setSuccess(data?.success)
         }
       })     
      

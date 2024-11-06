@@ -4,12 +4,23 @@ import * as z from "zod"
 import { LoginSchema } from "@/schema";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import{getUsersByEmail} from "@/data/user"
+import { generateVerificationToken } from "@/lib/token";
 export const login=async(values:z.infer<typeof LoginSchema>)=>{
  const vaildatedFeilds=LoginSchema.parse(values);
  if(!vaildatedFeilds){
   return {error:"invalid data"}
  }
-  const{email,password}=vaildatedFeilds;
+ const{email,password}=vaildatedFeilds;
+ const existingUser=await getUsersByEmail(email)
+if(!existingUser || !existingUser.password  ||!existingUser.email){
+    return {error:"email does not exist"}
+}
+if(!existingUser.emailVerified){
+  const VerificationToken=await generateVerificationToken(existingUser.email)
+  return{success:"confirm email sent!"}
+}
+  
   try {
     await signIn("credentials",
          { email,

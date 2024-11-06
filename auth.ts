@@ -1,4 +1,4 @@
-import { getUsersById } from './data/user';
+import { getUsersByEmail, getUsersById } from './data/user';
 import{JWT}from "next-auth/jwt";
 import NextAuth,{type DefaultSession} from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
@@ -43,13 +43,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
     },
     callbacks: {
-        // async signIn({ user }) {
-        //     if(!user) return false
-        //     const existingUser = await getUsersById(user.email)
-        //     if(!existingUser) return false
-        //     return true
+        async signIn({user,account}){
+            if(account?.provider!=="credentials") return true
+        
+            const existingUser=await getUsersByEmail(user.email!)
+            if(!existingUser?.emailVerified){
+                return true
+            }
+            //add 2FA check
+            return true
             
-        // },
+        },
        
         async session({ token, session }) {
             if(token.sub && session.user){
