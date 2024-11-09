@@ -6,6 +6,7 @@ import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import{getUsersByEmail} from "@/data/user"
 import { generateVerificationToken } from "@/lib/token";
+import { sendVerificationEmail } from "@/lib/mail";
 export const login=async(values:z.infer<typeof LoginSchema>)=>{
  const vaildatedFeilds=LoginSchema.parse(values);
  if(!vaildatedFeilds){
@@ -18,6 +19,10 @@ if(!existingUser || !existingUser.password  ||!existingUser.email){
 }
 if(!existingUser.emailVerified){
   const VerificationToken=await generateVerificationToken(existingUser.email)
+  await sendVerificationEmail(
+     VerificationToken.email,
+     VerificationToken.token
+)
   return{success:"confirm email sent!"}
 }
   

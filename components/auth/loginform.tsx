@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input"
 import {login} from '@/actions/login'
 import { useSearchParams } from "next/navigation"
+import Link from 'next/link'
 
 const LoginForm = () => {
   const searchParams=useSearchParams();
@@ -86,6 +87,9 @@ const LoginForm = () => {
                  type="password"
                  disabled={isPending} />
               </FormControl>
+              <Button className='text-normal p-0 text-xs' variant={"link"}>
+                <Link href={"/auth/reset"}>Forgot Passward</Link>
+              </Button>
               <FormMessage />
             </FormItem>
           )}

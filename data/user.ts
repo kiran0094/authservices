@@ -1,3 +1,4 @@
+"use server"
 import { prisma } from "@/lib/db";
 
 export const getUsersByEmail = async (email: string) => {
@@ -9,7 +10,7 @@ export const getUsersByEmail = async (email: string) => {
         })
         return user
     } catch (error) {
-        return null
+          return null
         
     }
 

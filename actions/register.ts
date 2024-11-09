@@ -5,6 +5,7 @@ import * as z from "zod"
 import { RegisterSchema } from "@/schema";
 import{getUsersByEmail} from "@/data/user"
 import { generateVerificationToken } from "@/lib/token";
+import{sendVerificationEmail}from "@/lib/mail"
 export const register=async(values:z.infer<typeof RegisterSchema>)=>{
  const vaildatedFeilds=RegisterSchema.parse(values);
  console.log(vaildatedFeilds)
@@ -26,5 +27,9 @@ await prisma.user.create({
     }
 })
 const verificationToken=await generateVerificationToken(email);
+await sendVerificationEmail(
+    verificationToken.email,
+    verificationToken.token
+)
  return {success:"comfirm  email sent"}
 }
