@@ -1,3 +1,4 @@
+"use client"
 import ErrorCard from '@/components/auth/errorcard'
 import React from 'react'
 
