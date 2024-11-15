@@ -21,7 +21,7 @@ import { newPassword } from '@/actions/new-password'
 
 const NewPasswordFrom= () => {
     const searchParams=useSearchParams();
-    const token=searchParams.get("token")
+    const token=searchParams.get("token") || undefined
     console.log(token)
   
   const [success, setSuccess] = useState<string | undefined>("");

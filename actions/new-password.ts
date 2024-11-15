@@ -2,7 +2,9 @@
 import * as z from "zod"
 import { New_password } from "@/schema"
 import { getResetPasswordTokenByToken } from './../lib/resetpassword';
-import { error } from "console";
+import { getUsersByEmail } from "@/data/user";
+import { prisma } from "@/lib/db";
+import bcrypt from "bcryptjs"
 
 
 export const newPassword=async(
@@ -27,5 +29,19 @@ export const newPassword=async(
     if(hasExpired){
         return{error:"Token expired"}
     }
+    const existingUser=await getUsersByEmail(existingToken.email);
+    if(!existingUser){
+        return{error:"User does not exist!"}
+    }
+   const hashedPassword=await bcrypt.hash(password,10);
+
+    await prisma.user.update({
+        where:{id:existingUser.id},
+        data:{password:hashedPassword}
+    })
+    await prisma.resetPasswordToken.delete({
+        where:{id:existingToken.id}
+    })
+    return{success:"password reset successfully"}
     
 }
