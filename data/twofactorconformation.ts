@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-export const getTwoFactorConformation=async(userId:string)=>{
+export const getTwoFactorConformationByUserId=async(userId:string)=>{
 
     try {
         const twoFactorConformation=await prisma.twoFactorconfirmation.findUnique({

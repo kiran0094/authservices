@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs"
 
 
 export const newPassword=async(
-    values:z.infer<typeof New_password>,
+        values:z.infer<typeof New_password>,
     token:string|undefined
 )=>{
 

@@ -5,7 +5,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import authConfig from "./auth.config"
 import { prisma } from "./lib/db"
 import {UserRole } from "@prisma/client";
-import { getTwoFactorConformation } from './data/twofactorconformation';
+import { getTwoFactorConformationByUserId } from './data/twofactorconformation';
 
 export type ExtendedUser = DefaultSession["user"] & {
     role: UserRole
@@ -53,7 +53,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             }
 
             if(existingUser.isTwoFactorEnable){
-                const twoFactorConformation=await getTwoFactorConformation(existingUser.id)
+                const twoFactorConformation = await getTwoFactorConformationByUserId(existingUser.id)
                 if(!twoFactorConformation){
                     return false
                 }
