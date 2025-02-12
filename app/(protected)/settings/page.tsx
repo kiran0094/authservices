@@ -1,19 +1,28 @@
-import { auth, signOut, } from "@/auth"
+"use client";
+import { logout } from "@/actions/logout";
+import { useCurrentUser } from "@/hooks/currentuser";
 
-const Settings = async() => {
-    const session = await auth();
+const Settings = () => {
+  const user = useCurrentUser(); //we use {data :session}=useSession();
+
+  const onclick = (event: React.MouseEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // signOut(); if you want only logout client stuff
+    logout();
+  };
+
   return (
-    <div>
-      {JSON.stringify(session)}
-      <form action={async()=>{
-        "use server"
-        await signOut()
-      }}>
-        <button type="submit">Logout</button>
-
+    <div className="pt-6">
+      <form onSubmit={onclick}>
+        <button
+          type="submit"
+          className="bg-white text-center p-2 rounded-lg px-4 "
+        >
+          Logout
+        </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Settings
+export default Settings;
