@@ -1,7 +1,8 @@
-import { currentUser } from "@/lib/authserver";
+"use client";
+import { useCurrentUser } from "@/hooks/currentuser";
 import { Userinfo } from "@/components/userinfo";
-const Server = async () => {
-  const user = await currentUser();
+const client = () => {
+  const user = useCurrentUser();
   return (
     <div className="pt-5">
       <Userinfo user={user} label="💻server" />
@@ -9,4 +10,4 @@ const Server = async () => {
   );
 };
 
-export default Server;
+export default client;
