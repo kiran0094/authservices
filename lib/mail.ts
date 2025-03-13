@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 console.log(process.env.RESEND_API_KEY);
-
+const domin = process.env.NEXT_PUBLIC_API_URL;
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendTwoFactorEmail = async (email: string, token: string) => {
@@ -21,7 +21,7 @@ export const sendTwoFactorEmail = async (email: string, token: string) => {
  * @param {string} token - the token to include in the email's link
  */
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const conformlink = `http://localhost:3000/auth/new-verification?token=${token}`;
+  const conformlink = `${domin}/auth/new-verification?token=${token}`;
   resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
@@ -31,7 +31,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetlink = `http://localhost:3000/auth/new-password?token=${token}`;
+  const resetlink = `${domin}/auth/new-password?token=${token}`;
   resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
